@@ -1,0 +1,8 @@
+pip
+setuptools
+wheel
+spacy
+scikit-learn
+pymupdf
+requests
+beautifulsoup4
