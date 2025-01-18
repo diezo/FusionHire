@@ -1,7 +1,7 @@
 import os
-from github.get_total_stars import get_total_stars
-from modules import tfidf_similarity, pdf_extractor
-from utils import extract_socials, normalize_modifier
+from .github.get_total_stars import get_total_stars
+from .modules import tfidf_similarity, pdf_extractor
+from .utils import extract_socials, normalize_modifier
 
 # Constant Weights
 GITHUB_STARS_WEIGHT: float = 0.2
@@ -58,25 +58,3 @@ def screen(
             zipped_results[:top_k] if top_k is not None else zipped_results
         )
     ]
-
-
-
-if __name__ == "__main__":
-    RESUME_DIR: str = "./resumes"
-    PREFERENCES_FILE: str = "./preferences"
-
-    # Read Resumes, Applicants and Preferences
-    resumes: list[str] = [f"{RESUME_DIR}/{file}" for file in os.listdir(RESUME_DIR)]
-    applicants: list[str] = [item.replace(RESUME_DIR + "/", "").replace(".pdf", "") for item in resumes]
-    with open(PREFERENCES_FILE, "r", encoding="utf-8") as file: preferences: str = file.read().strip()
-
-    # Calculate Scores
-    scores = screen(
-        resumes=resumes,
-        applicants=applicants,
-        preferences=preferences,
-        top_k=3  # Top-K Applicants
-    )
-
-    # Print Scores
-    [print(f"{round(score)}%: {applicant}") for applicant, score in scores]

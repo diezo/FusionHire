@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import uuid
 import shutil
 import os
+import json
 from screener.screener import screen
 
 # Constants
@@ -40,7 +41,7 @@ def screen_route() -> None:
     preferences: str = request.form.get("preferences").strip()
     top_k: int = 0
 
-    try: top_k: int = int(request.form.get("top_k"))
+    try: top_k: int = int(request.form.get("top_k", "").strip())
     except ValueError: pass
 
     # Create Unique Uploads Sub-Dir
@@ -64,15 +65,17 @@ def screen_route() -> None:
         resumes=resumes,
         applicants=applicants,
         preferences=preferences,
-        top_k=top_k if top_k > 0 else DEFAULT_APPLICANTS_TOP_K
+        top_k=top_k if top_k > 0 else DEFAULT_APPLICANTS_TOP_K  # Top-K: User-Defined or Default
     )
 
-    print(results)  # TODO: Remove
+    # Round-off Scores
+    results: list[tuple[str, float]] = [(applicant, round(score, 2)) for applicant, score in results]
 
     # Delete Uploads Sub-Directory
     shutil.rmtree(f"{UPLOAD_DIR}/{uploads_subdir}")
 
-    return render_template("result.html")
+    # Render Results Template
+    return render_template("result.html", results=json.dumps(results))
 
 
 # Run Server

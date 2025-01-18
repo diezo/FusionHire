@@ -1,8 +1,8 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from utils.lowercase import lowercase
-from utils.lemmatize import lemmatize
-from utils.remove_constants import remove_constants
+from screener.utils.lowercase import lowercase
+from screener.utils.lemmatize import lemmatize
+from screener.utils.remove_constants import remove_constants
 from scipy.sparse import spmatrix
 
 
