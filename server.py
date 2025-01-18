@@ -6,7 +6,7 @@ import json
 from screener.screener import screen
 
 # Constants
-DEBUG: bool = True
+DEBUG: bool = False
 UPLOAD_DIR: bool = "./uploads"
 DEFAULT_APPLICANTS_TOP_K: int = 3
 
