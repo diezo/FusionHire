@@ -29,7 +29,7 @@ def screen(
 
     # Normalize Similarity Scores
     total_score: float = sum(tfidf_scores)
-    scores: list[float] = [score / total_score for score in tfidf_scores]
+    scores: list[float] = [score / (total_score if total_score != 0 else 1) for score in tfidf_scores]
 
     # Scrape GitHub Data
     github_stars: list[int] = [
